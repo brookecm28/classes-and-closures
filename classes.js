@@ -31,6 +31,19 @@
 
 //Code Here
 
+class Employee {
+  constructor(first_name, last_name, email, age) {
+    this.first_name = first_name
+    this.last_name = last_name,
+    this.email = email
+    this.age = age
+  }
+
+  makeWidget() {
+    return `${this.first_name} ${this.last_name} Widget`
+  }
+
+}
 
 ////////// PROBLEM 2 //////////
 
@@ -49,16 +62,34 @@
 
 //Code Here
 
+class Manager extends Employee {
+  constructor(first_name, last_name, email, age) {
+    super(first_name, last_name, email, age)
+    this.reports = []
+   }  
+    hire (employee) {
+      this.reports.push(employee)
+      return this.reports
+    }
+    fire (index) {
+      this.reports.splice(index, 1)
+      return this.reports
+    }
+ 
+}
 
 ////////// PROBLEM 3 //////////
 
 /*
-  Managers for Widget Co. get promoted when they get more employees, and get a bonus when they fire employees.
-  create a class ProgressiveManager that extends Manager.  A Progressive Manager has all of the same properties as a manager with the following additional properties:
+  Managers for Widget Co. get promoted when they get more employees, and get a bonus when they 
+  fire employees.
+  Create a class ProgressiveManager that extends Manager.  A Progressive Manager has 
+  all of the same properties as a manager with the following additional properties:
     - title - default 'Not a manager'
     - bonus - default 0
 
-  When employees are hired or fired, the manager's title should be updated based on the number of reports.
+  When employees are hired or fired, the manager's title should be updated based on the number 
+  of reports.
     0 reports : Not a manager
     1-3 reports : Barely Manager
     4-10 reports : Mostly Manager
@@ -73,7 +104,39 @@
 
 //Code Here
 
+class ProgressiveManager extends Manager {
+  constructor(first_name, last_name, email, age) {
+    super(first_name, last_name, email, age)
+    this.title = 'Not a manager'
+    this.bonus = 0
+  }
 
+    reportReader() {
+      if (this.reports.length >= 1 && this.reports.length <=3) {
+        this.title = 'Barely Manager'
+        return this.title
+      } else if (this.reports.length >= 4 && this.reports.length <=10) {
+        this.title = 'Mostly Manager'
+        return this.title
+      } else if (this.reports.length >= 11 && this.reports.length <=50) {
+        this.title = 'Manager'
+        return this.title
+      } else if (this.reports.length >= 51 && this.reports.length <=100) {
+        this.title = 'Manager Plus'
+        return this.title
+      } else if (this.reports.length >=101) {
+        this.title = 'Bestest Manager'
+        return this.title
+      }
+    } 
+
+    fire(index) {
+      super.fire(index)
+      this.bonus += 100
+      return this.bonus
+    }
+  
+}
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
@@ -95,9 +158,63 @@
         - This function sets needs_reboot to true
     - reboot
         - This function returns an anonymous function that is called when the machine is done rebooting
-        - The anonymous function should decrease wear_and_tear_count by 10, and set needs_reboot to false
+        - The anonymous function should decrease wear_and_tear_count by 10, 
+        and set needs_reboot to false
 */
 
 //Code Here
 
+class Machine {
+  constructor() {
+    this.widgets_made_count = 0
+    this.wear_and_tear_count = 0
+    this.needs_reboot = false
+  }
 
+  makeWidgets(num) {
+    const oldWidgets = this.wear_and_tear_count
+    this.widgets_made_count += num
+    if (this.widgets_made_count % 50 === 0) {
+      this.wear_and_tear_count += (1 * (this.widgets_made_count / 50))
+      // return () => {
+      //   this.wear_and_tear_count
+      //   this.widgets_made_count
+      // }
+    } else {
+      this.wear_and_tear_count += ((1 * this.widgets_made_count /50 - ((this.widgets_made_count % 50)) / 50)) - oldWidgets
+      // return () => {
+      //   this.wear_and_tear_count
+      //   this.widgets_made_count
+      // }
+    }
+
+  }
+  
+  fixMachine() {
+    this.needs_reboot = true
+    return this.needs_reboot
+  }
+
+  reboot() {
+    return function () {
+      console.log('rebooted')
+      this.wear_and_tear_count -= 10
+      needs.reboot = false
+    }
+  }
+
+}
+
+const mach = new Machine()
+
+console.log(mach)
+
+mach.makeWidgets(555)
+console.log(mach)
+mach.makeWidgets(10)
+console.log(mach)
+mach.makeWidgets(50)
+console.log(mach)
+
+mach.reboot()
+console.log(mach)
