@@ -109,9 +109,13 @@ class ProgressiveManager extends Manager {
     super(first_name, last_name, email, age)
     this.title = 'Not a manager'
     this.bonus = 0
+    // console.log(this.title)
   }
 
-    reportReader() {
+    // reportReader() {
+      hire(employee){
+      console.log(this.reports.length)
+      super.hire(employee)
       if (this.reports.length >= 1 && this.reports.length <=3) {
         this.title = 'Barely Manager'
         return this.title
@@ -127,16 +131,31 @@ class ProgressiveManager extends Manager {
       } else if (this.reports.length >=101) {
         this.title = 'Bestest Manager'
         return this.title
-      }
-    } 
-
+      } else {
+        return this.title
+      }}
+    // } 
+    
     fire(index) {
       super.fire(index)
       this.bonus += 100
       return this.bonus
-    }
-  
+    }  
 }
+
+const marge = new ProgressiveManager('Marge','Dursley', 'md@md.com', 46)
+marge.hire('bob')
+marge.hire('hob')
+marge.hire('cob')
+marge.hire('rob')
+marge.hire('sob')
+marge.hire('mob')
+marge.hire('slob')
+marge.hire('blob')
+marge.hire('clob')
+marge.hire('flob')
+marge.hire('glob')
+
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
@@ -199,22 +218,23 @@ class Machine {
     return function () {
       console.log('rebooted')
       this.wear_and_tear_count -= 10
-      needs.reboot = false
+      this.needs_reboot = false
+      console.log(this.wear_and_tear_count)
     }
   }
 
 }
 
-const mach = new Machine()
+// const mach = new Machine()
 
-console.log(mach)
+// console.log(mach)
 
-mach.makeWidgets(555)
-console.log(mach)
-mach.makeWidgets(10)
-console.log(mach)
-mach.makeWidgets(50)
-console.log(mach)
+// mach.makeWidgets(555)
+// console.log(mach)
+// mach.makeWidgets(10)
+// console.log(mach)
+// mach.makeWidgets(50)
+// console.log(mach)
 
-mach.reboot()
-console.log(mach)
+// mach.reboot()
+// console.log(mach)
